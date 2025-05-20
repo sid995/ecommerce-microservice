@@ -1,4 +1,3 @@
-// protoc ./catalog.proto --go_out=plugins=grpc:./pb
 package catalog
 
 import (
@@ -26,7 +25,8 @@ func ListenGRPC(s Service, port int) error {
 	pb.RegisterCatalogServiceServer(
 		serv,
 		&grpcServer{
-			service: s,
+			service:                           s,
+			UnimplementedCatalogServiceServer: pb.UnimplementedCatalogServiceServer{},
 		},
 	)
 	reflection.Register(serv)

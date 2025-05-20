@@ -5,12 +5,14 @@ import (
 	"time"
 
 	"github.com/kelseyhightower/envconfig"
-	"github.com/sid995/ecommerce-microservice/catalog"
+	"github.com/sid995/ecommerce-microservice/order"
 	"github.com/tinrab/retry"
 )
 
 type Config struct {
 	DatabaseURL string `envconfig:"DATABASE_URL"`
+	AccountURL  string `envconfig:"ACCOUNT_SERVICE_URL"`
+	CatalogURL  string `envconfig:"CATALOG_SERVICE_URL"`
 }
 
 func main() {
@@ -20,16 +22,17 @@ func main() {
 		log.Fatal(err)
 	}
 
-	var r catalog.Repository
+	var r order.Repository
 	retry.ForeverSleep(2*time.Second, func(_ int) (err error) {
-		r, err = catalog.NewElasticRepository(cfg.DatabaseURL)
+		r, err = order.NewPostgresRepository(cfg.DatabaseURL)
 		if err != nil {
 			log.Println(err)
 		}
 		return
 	})
 	defer r.Close()
-	log.Println("Listening on port 8080")
-	s := catalog.NewService(r)
-	log.Fatal(catalog.ListenGRPC(s, 8080))
+
+	log.Println("Listening on port 8080...")
+	s := order.NewService(r)
+	log.Fatal(order.ListenGRPC(s, cfg.AccountURL, cfg.CatalogURL, 8080))
 }
