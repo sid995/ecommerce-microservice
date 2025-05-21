@@ -43,18 +43,14 @@ input ProductInput {
   price: Float!
 }
 
-input OrderInput {
-  productIds: [String!]!
-}
-
-input OrderedProductInput {
+input OrderProductInput {
   id: String!
   quantity: Int!
 }
 
-input OrderedInput {
+input OrderInput {
   accountId: String!
-  products: [OrderedProductInput!]!
+  products: [OrderProductInput!]!
 }
 
 type Mutation {
@@ -64,7 +60,6 @@ type Mutation {
 }
 
 type Query {
-  accounts(pagination: PaginationInput): [Account!]!
+  accounts(pagination: PaginationInput, id: String): [Account!]!
   products(pagination: PaginationInput, query: String, id: String): [Product!]!
 }
-

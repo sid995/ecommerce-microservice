@@ -21,7 +21,7 @@ func main() {
 		log.Fatalf("Failed to process app config: %s", err)
 	}
 
-	server, err := NewGraphqlServer(cfg.AccountURL, cfg.CatalogURL, cfg.OrderURL)
+	server, err := NewGraphQLServer(cfg.AccountURL, cfg.CatalogURL, cfg.OrderURL)
 	if err != nil {
 		log.Fatalf("Failed to create graphql server: %s", err)
 	}
