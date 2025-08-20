@@ -22,22 +22,21 @@ The project consists of the following microservices:
 - **Dependencies**: Managed with Go modules
 
 ## Architecture
-
 ```
-┌─────────────┐
-│   Client    │
-└──────┬──────┘
-       │
-┌──────┴──────┐
-│   GraphQL   │
-│   Gateway   │
-└──┬────┬────┬┘
-   │    │    │
-   │    │    │
-┌──┴─┐ ┌┴─┐ ┌┴──┐
-│Acc.│ │Cat│ │Ord│
-│Svc │ │Svc│ │Svc│
-└────┘ └───┘ └───┘
+                ┌─────────────┐
+                │    Client   │
+                └──────┬──────┘
+                       │
+              ┌────────┴────────┐
+              │     GraphQL     │
+              │     Gateway     │
+              └───┬────┬────┬───┘
+                  │    │    │
+          ┌───────┘    │    └───────┐
+          │            │            │
+   ┌──────┴───┐  ┌─────┴────┐  ┌────┴────┐
+   │ Acc Svc  │  │ Cat Svc  │  │ Ord Svc │
+   └──────────┘  └──────────┘  └─────────┘
 ```
 
 ## Services Description
